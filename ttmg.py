@@ -147,24 +147,7 @@ class ngrok:
 
       raise Exception('Not found tunnels')
     except urllib.error.URLError:
-      for run in range(10):
-        if v:
-          clear_output()
-          loadingAn(name='lds')
-        dati = self.startWebUi(
-            self.nameport(self.TOKEN, self.USE_FREE_TOKEN) if not self.USE_FREE_TOKEN else {},
-            self.dport,
-            nServerbk,
-            self.region,
-            btc,
-            self.configPath,
-            displayB,
-            self.service,
-            v
-            )
-        if dati == True:
-            continue
-        return dati
+        return false
 
 
 def checkAvailable(path_="", userPath=False):
