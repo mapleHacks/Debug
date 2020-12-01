@@ -54,8 +54,7 @@ class ngrok:
     update_channel: stable
     web_addr: localhost:{}
     tunnels:\n""".format(region, Gport)
-    if not self.USE_FREE_TOKEN:
-      auth ="""
+    auth ="""
     authtoken: {}""".format(token)
       data = auth+data
     tunnels = ""
@@ -87,27 +86,11 @@ class ngrok:
       clear_output()
       loadingAn(name="lds")
       textAn("Starting ngrok ...", ty='twg')
-    if self.USE_FREE_TOKEN:
-      for sn in service:
-        self.ngrok_config(
-          token,
-          self.sdict[nServer][0],
-          self.sdict[nServer][2],
-          region,
-          service)
-        if sn[0] == nServer:
-          runSh(f"ngrok {sn[2]} -config={self.sdict[nServer][2]} {sn[1]} &", shell=True)
-    else:
-      self.ngrok_config(token, dport, configPath, region, service)
-      runSh(f"ngrok start --config {configPath} --all &", shell=True)
+    self.ngrok_config(token, dport, configPath, region, service)
+    runSh(f"ngrok start --config {configPath} --all &", shell=True)
     time.sleep(3)
     try:
-        if self.USE_FREE_TOKEN:
-          dport = self.sdict[nServer][0]
-          nServer = 'command_line'
-          host = urllib.request.urlopen(f"http://localhost:{dport}/api/tunnels")
-        else:
-          host = urllib.request.urlopen(f"http://localhost:{dport}/api/tunnels")
+        host = urllib.request.urlopen(f"http://localhost:{dport}/api/tunnels")
         host = loads(host.read())['tunnels']
         for h in host:
           if h['name'] == nServer:
@@ -433,5 +416,5 @@ class PortForward:
 
 
 class PortForward_wrapper(PortForward):
-  def __init__(self,SERVICE,TOKEN,USE_FREE_TOKEN,connections,region,config):
+  def __init__(self,SERVICE,TOKEN,connections,region,config):
     super(self.__class__,self).__init__(connections,region,SERVICE,TOKEN,config)
