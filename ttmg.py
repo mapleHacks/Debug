@@ -212,16 +212,16 @@ def argoTunnel():
     # Sometimes it takes long time to display user host name in cloudflared metrices.
     for i in range(20):
         with urllib.request.urlopen("http://127.0.0.1:49589/metrics") as response:
-        text = str(response.read())
-        sub = "\\ncloudflared_tunnel_user_hostnames_counts{userHostname=\"https://"
-        begin = text.find(sub)
-        if begin == -1:
-            time.sleep(10)
-            #print("Retry reading cloudflared user hostname")
-            continue
-        end = text.index("\"", begin + len(sub))
-        hostname = text[begin + len(sub) : end]
-        break
+            text = str(response.read())
+            sub = "\\ncloudflared_tunnel_user_hostnames_counts{userHostname=\"https://"
+            begin = text.find(sub)
+            if begin == -1:
+                time.sleep(10)
+                #print("Retry reading cloudflared user hostname")
+                continue
+            end = text.index("\"", begin + len(sub))
+            hostname = text[begin + len(sub) : end]
+            break
         if hostname == None:
             raise RuntimeError("Failed to get user hostname from cloudflared")
     return hostname
