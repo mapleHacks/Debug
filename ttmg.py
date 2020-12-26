@@ -191,8 +191,8 @@ def updateCheck(self, Version):
 def _download(url, path):
     try:
         with urllib.request.urlopen(url) as response:
-        with open(path, 'wb') as outfile:
-            shutil.copyfileobj(response, outfile)
+            with open(path, 'wb') as outfile:
+                shutil.copyfileobj(response, outfile)
     except:
         print("Failed to download ", url)
         raise
